@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <title>link-folder</title>
     <link rel="stylesheet" href="./../css/bootstrap.min.css">
-    <!--<script src="./../renderer/renderer.js"></script>-->
     <script>
         window.$ = window.jQuery = require('./../js/jquery-3.3.1.min.js');
-        //require('./../renderer/renderer');
+        require('./../renderer/renderer');
     </script>
 </head>
 <body>
@@ -44,7 +43,7 @@
         var ipc = require('electron').ipcRenderer;
         $('#addbtn').on('click', function () {
             $('#listDiv').append(`
-            <div class="row" style="display: flex;">
+            <div class="row" style="display: flex; margin-bottom: 5px;">
                 <div class="col-xs-3">
                     <input class="btn btn-primary form-control key" type="button" value="${$('#linkname').val()}" data-url="${$('#filepath').val()}">
                 </div>
