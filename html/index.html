@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>link-folder</title>
+    <link rel="stylesheet" href="./../css/bootstrap.min.css">
+    <!--<script src="./../renderer/renderer.js"></script>-->
+    <script>
+        window.$ = window.jQuery = require('./../js/jquery-3.3.1.min.js');
+        //require('./../renderer/renderer');
+    </script>
+</head>
+<body>
+<div style="margin: 5px;">
+    <div class="form-group" style="padding: 5px;">
+        <h1>List</h1>
+    </div>
+    <div class="form-group" style="padding: 5px;">
+        <div class="row">
+            <div class="col-xs-3">
+                <input id="linkname" type="text" class="form-control" placeholder="link name">
+            </div>
+            <div class="col-xs-6">
+                <input id="filepath" type="text" class="form-control" placeholder="file path">
+            </div>
+            <div class="col-xs-3">
+                <input id="addbtn" type="button" class="btn btn-primary" value="+" disabled="disabled">
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="form-group" style="padding: 5px;" id="listDiv"></div>
+</div>
+</body>
+</html>
+<script>
+    (function() {
+        $('input').blur(function () {
+            if($('#linkname').val() != '' && $('#filepath').val() != '') {
+                $('#addbtn').attr('disabled', false);
+            }
+        });
+
+        var ipc = require('electron').ipcRenderer;
+        $('#addbtn').on('click', function () {
+            $('#listDiv').append(`
+            <div class="row" style="display: flex;">
+                <div class="col-xs-3">
+                    <input class="btn btn-primary form-control key" type="button" value="${$('#linkname').val()}" data-url="${$('#filepath').val()}">
+                </div>
+                <div class="col-xs-7" style="margin-top: 0.5em;">
+                    ${$('#filepath').val()}
+                </div>
+            </div>
+            `).click(function (evt){
+                ipc.send('openFolder', $(evt.target).data('url'));
+            });
+            ipc.send('invokeAction', {linkname: $('#linkname').val(), filepath: $('#filepath').val()});
+        });
+
+        ipc.on('returnAction', function (evt, arg) {
+            console.log(evt, arg);
+            $('#addbtn').attr('disabled', true);
+            $('#linkname').val('');
+            $('#filepath').val('');
+        });
+    })();
+</script>
