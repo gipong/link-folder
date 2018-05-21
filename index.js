@@ -13,11 +13,12 @@ app.on('ready',(event) => {
     var ipc = require('electron').ipcMain;
 
     ipc.on('invokeAction', (evt, arg) => {
-        fs.readFile(`${process.cwd()}/renderer/config.js`, (err, data) => {
+        fs.readFile(`${__dirname}/renderer/config.json`, 'utf8', (err, data) => {
             if(err) console.log(err);
             var initObj = JSON.parse(data);
-            initObj.list.push(arg);
-            fs.writeFile(`${process.cwd()}/renderer/config.js`, JSON.stringify(initObj));
+            console.log(initObj.list);
+            initObj['list'].push(arg);
+            fs.writeFile(`${__dirname}/renderer/config.json`, JSON.stringify(initObj), 'utf8');
         });
         evt.sender.send('returnAction', arg);
     });
