@@ -8,7 +8,7 @@ app.on('ready',(event) => {
     win.loadURL(`file://${__dirname}/html/index.html`);
 
     // devtools
-    //win.webContents.openDevTools();
+    win.webContents.openDevTools();
 
     var ipc = require('electron').ipcMain;
 

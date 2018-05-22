@@ -9,10 +9,28 @@
         require('./../renderer/renderer');
     </script>
 </head>
+<style>
+    #searchBar {
+        height: 45px;
+        margin: 20px auto;
+        padding: 5px;
+        border: none;
+        border: solid 1.5px;
+        border-color: #e8e8e8;
+        border-radius: 10px;
+    }
+</style>
 <body>
 <div style="margin: 5px;">
     <div class="form-group" style="padding: 5px;">
-        <h1>List</h1>
+        <div class="row">
+            <div class="col-xs-3">
+                <h1>List</h1>
+            </div>
+            <div class="col-xs-7 text-right">
+                <input type="text" placeholder="Search" id="searchBar">
+            </div>
+        </div>
     </div>
     <div class="form-group" style="padding: 5px;">
         <div class="row">
@@ -40,10 +58,18 @@
             }
         });
 
+        $('input#searchBar').keyup(function () {
+            if($('#searchBar').val() == "") {
+                $('.keydiv').show();
+            } else {
+                $('.keydiv').not(`div[data-label*='${$('#searchBar').val()}']`).hide();
+            }
+        });
+
         var ipc = require('electron').ipcRenderer;
         $('#addbtn').on('click', function () {
             $('#listDiv').append(`
-            <div class="row" style="display: flex; margin-bottom: 5px;">
+            <div class="row keydiv" data-label="${$('#linkname').val()}" style="display: flex; margin-bottom: 5px;">
                 <div class="col-xs-3">
                     <input class="btn btn-primary form-control key" type="button" value="${$('#linkname').val()}" data-url="${$('#filepath').val()}">
                 </div>
