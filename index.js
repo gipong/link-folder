@@ -8,7 +8,7 @@ app.on('ready',(event) => {
     win.loadURL(`file://${__dirname}/html/index.html`);
 
     // devtools
-    win.webContents.openDevTools();
+    //win.webContents.openDevTools();
 
     var ipc = require('electron').ipcMain;
 
@@ -16,7 +16,6 @@ app.on('ready',(event) => {
         fs.readFile(`${__dirname}/renderer/config.json`, 'utf8', (err, data) => {
             if(err) console.log(err);
             var initObj = JSON.parse(data);
-            console.log(initObj.list);
             initObj['list'].push(arg);
             fs.writeFile(`${__dirname}/renderer/config.json`, JSON.stringify(initObj), 'utf8');
         });

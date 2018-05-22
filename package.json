@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
     "build-win": "electron-packager . link-folder --out link-folder-app --overwrite --platform=win32 --arch=x64 --icon=build/favicon.ico --ignore=node_modules/.bin --ignore=.git --prune",
     "build-mac": "electron-packager . link-folder --ignore=node_modules/.bin --ignore=.git --prune"
   },
